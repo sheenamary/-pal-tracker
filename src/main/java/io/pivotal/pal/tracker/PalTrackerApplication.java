@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 
 @SpringBootApplication
@@ -14,8 +15,8 @@ public class PalTrackerApplication {
     }
 
     @Bean
-    public TimeEntryRepository getData() {
-        return new InMemoryTimeEntryRepository();
+    public TimeEntryRepository getData(DataSource dataSource) {
+        return new JdbcTimeEntryRepository(dataSource);
 
     }
 }
