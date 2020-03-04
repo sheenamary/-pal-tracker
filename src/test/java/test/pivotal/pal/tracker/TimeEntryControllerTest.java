@@ -24,7 +24,15 @@ public class TimeEntryControllerTest {
     @BeforeEach
     public void setUp() {
         timeEntryRepository = mock(TimeEntryRepository.class);
-        controller = new TimeEntryController(timeEntryRepository);
+        MeterRegistry meterRegistry = mock(MeterRegistry.class);
+        doReturn(mock(DistributionSummary.class))
+                .when(meterRegistry)
+                .summary("timeEntry.summary");
+
+        doReturn(mock(Counter.class))
+                .when(meterRegistry)
+                .counter("timeEntry.actionCounter");
+        controller = new TimeEntryController(timeEntryRepository, meterRegistry);
     }
 
     @Test
